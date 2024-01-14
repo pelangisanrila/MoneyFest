@@ -16,3 +16,5 @@ Dalam menjawab permasalahan yang dihadapi dalam Sustainable Development Goals (S
 - Adding financial education articles
 
 ![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1257).png?raw = true)
+![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1259).png?raw = true)
+![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1260).png?raw = true)
