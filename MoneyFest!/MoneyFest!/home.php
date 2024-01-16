@@ -24,6 +24,13 @@ while ($row = mysqli_fetch_array($query)) {
     $name = $row['user_name'];
     $_SESSION['id_user'] = $row['id_user'];
 }
+
+
+$user = $_SESSION['id_user'];
+  $balance_sql = "SELECT balance($user) AS balance";
+  $balance_query = mysqli_query($connect, $balance_sql);
+  $balance = mysqli_fetch_assoc($balance_query);
+  $balance = $balance['balance'];
 ?>
 
 
@@ -286,7 +293,7 @@ while ($row = mysqli_fetch_array($query)) {
                                        </a>
                                        <div>
                                            <h6>Balance : </h6>
-                                           <h3>2.500.000</h3>
+                                           <h3>Rp <?= number_format($balance) ?></h3>
                                        </div>
                                    </div>
                                </div>

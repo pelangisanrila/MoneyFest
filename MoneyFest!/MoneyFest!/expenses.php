@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if a file is uploaded
     if (isset($_FILES["photo"]["name"]) || $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
-        $uploadDir = 'C:\xampp\htdocs\MoneyFest!\MoneyFest!\MoneyFest!\images\structs\struct';
+        $uploadDir = 'C:\xampp\htdocs\MoneyFest!\MoneyFest!\MoneyFest!\images\structs-expense\struct';
         
         // Get the file information
         $fileName = basename($_FILES["photo"]["name"]);
@@ -431,7 +431,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                                  </a>
                                  <div>
                                     <h6>Total Expenses:</h6>
-                                    <h3><?= $total_expenses ?></h3>
+                                    <h3>Rp <?= number_format($total_expenses) ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -446,7 +446,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                                  </a>
                                  <div>
                                     <h6>Balance :</h6>
-                                    <h3><?= $balance ?></h3>
+                                    <h3>Rp <?= number_format($balance) ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -597,7 +597,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                            <div class="modal-dialog modal-xl">
                               <div class="modal-content">
                                  <div class="modal-header">
-                                    <h5 class="modal-title">Reporting of Income</h5>
+                                    <h5 class="modal-title">Reporting of Expense</h5>
                                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button> -->
@@ -624,6 +624,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                                              </div>
 
                                              <div class="col-sm-6">
+
+                                             <?php
+                                                // Fetch categories from the database
+                                                $category_query = "SELECT id_category_expense, expense_category FROM category_expense";
+                                                $category_result = mysqli_query($connect, $category_query);
+
+                                                if (!$category_result) {
+                                                   die("Error fetching categories: " . mysqli_error($connect));
+                                                }
+
+                                                $categoryIconMapping = array(
+                                                   1 => 'las la-hamburger',
+                                                   2 => 'las la-car-side',
+                                                   3 => 'las la-user-friends',
+                                                   4 => 'las la-home',
+                                                   5 => 'las la-gift',
+                                                   6 => 'las la-mobile',
+                                                   7 => 'las la-tshirt',
+                                                   8 => 'las la-umbrella-beach',
+                                                   9 => 'las la-spa',
+                                                   10 => 'las la-hospital',
+                                                   11 => 'las la-baby',
+                                                   12 => 'las la-paw',
+                                                   13 => 'las la-plane-departure',
+                                                   14 => 'las la-graduation-cap',
+                                                   15 => 'las la-couch',
+                                                   16 => 'las la-calendar-alt'
+                                                );
+
+                                                $getCategoryName = array(
+                                                   1 => 'Diet',
+                                                   2 => 'Transport',
+                                                   3 => 'Social',
+                                                   4 => 'Residential',
+                                                   5 => 'Gift',
+                                                   6 => 'Comunication',
+                                                   7 => 'Clothing',
+                                                   8 => 'Recreation',
+                                                   9 => 'Beautify',
+                                                   10 => 'Medical',
+                                                   11 => 'Baby',
+                                                   12 => 'Pet',
+                                                   13 => 'Travel',
+                                                   14 => 'Education',
+                                                   15 => 'HomeApliances',
+                                                   16 => 'Daily'
+                                                );
+
+                                                ?>
                                                 <p>Kategori</p>
                                                 <!-- <div class="row mt-3">
                                                    <div class="col-sm-3 col-md-3 col-lg-3">
@@ -641,232 +690,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                                                 </div> -->
                                                 <div class="container">
                                                    <div class="radio-tile-group row mb-3">
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="food" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon food-icon">
-                                                                  <i class="las la-hamburger" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="food" class="radio-tile-label">Diet</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="transport" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon transport-icon">
-                                                                  <i class="las la-car-side" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="transport" class="radio-tile-label">Transport</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="social" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon social-icon">
-                                                                  <i class="las la-user-friends" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="social" class="radio-tile-label">Social</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="residential" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon residential-icon">
-                                                                  <i class="las la-home" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="residential" class="radio-tile-label">Residential</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-
-                                                <div class="container">
-                                                   <div class="radio-tile-group row mb-3">
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="gift" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon gift-icon">
-                                                                  <i class="las la-gift" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="gift" class="radio-tile-label">Gift</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="communication" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon communication-icon">
-                                                                  <i class="las la-mobile" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="communication" class="radio-tile-label">Comunication</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="clothing" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon clothing-icon">
-                                                                  <i class="las la-tshirt" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="clothing" class="radio-tile-label">Clothing</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="recreation" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon recreation-icon">
-                                                                  <i class="las la-umbrella-beach" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="recreation" class="radio-tile-label">Recreation</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-
-                                                <div class="container">
-                                                   <div class="radio-tile-group row mb-3">
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="beauty" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon beauty-icon">
-                                                                  <i class="las la-spa" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="beauty" class="radio-tile-label">Beautify</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="medical" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon medical-icon">
-                                                                  <i class="las la-hospital" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="medical" class="radio-tile-label">Medical</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="baby" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon baby-icon">
-                                                                  <i class="las la-baby" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="baby" class="radio-tile-label">Baby</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="pet" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon pet-icon">
-                                                                  <i class="las la-paw" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="pet" class="radio-tile-label">Pet</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-
-                                                <div class="container">
-                                                   <div class="radio-tile-group row mb-3">
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="travel" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon travel-icon">
-                                                                  <i class="las la-plane-departure" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="travel" class="radio-tile-label">Travel</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="education" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon education-icon">
-                                                                  <i class="las la-graduation-cap" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="education" class="radio-tile-label">Education</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="home" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon home-icon">
-                                                                  <i class="las la-couch" style="font-size: 45px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="home" class="radio-tile-label">Home-</label>
-                                                               <label for="home" class="radio-tile-label">Appliances</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
-                                                
-                                                      <div class="col-sm-3 col-md-3 col-lg-3">
-                                                         <div class="input-container">
-                                                            <input id="daily" class="radio-button" type="radio" name="radio" />
-                                                            <div class="radio-tile">
-                                                               <div class="icon daily-icon">
-                                                                  <i class="las la-calendar-alt" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
-                                                               </div><br>
-                                                               <label for="daily" class="radio-tile-label">Daily</label>
-                                                            </div>
-                                                         </div>
-                                                      </div>
+                                                   <?php
+                                                         // Loop through each category and create radio buttons with icons
+                                                         foreach ($category_result as $row) {
+                                                               $categoryId = $row['id_category_expense'];
+                                                               $iconClass = $categoryIconMapping[$categoryId];
+                                                               $nameKategori = $getCategoryName[$categoryId];
+                                                         ?>
+                                                               <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                  <div class="input-container">
+                                                                     <input id="<?= $categoryId ?>" class="radio-button" type="radio" name="kategori" value="<?= $categoryId ?>" />
+                                                                     <div class="radio-tile">
+                                                                           <div class="icon wage-icon">
+                                                                              <i class="<?= $iconClass ?>" style="font-size: 50px; font-weight: bold; color: #f15773;"></i>
+                                                                           </div><br>
+                                                                           <label for="<?= $categoryId ?>" class="radio-tile-label"><?= $nameKategori ?></label>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                         <?php } ?>
                                                    </div>
                                                 </div>
                                                 
                                                 <p>Add Image</p>
                                                 <div class="form-group">
                                                    <div class="custom-file" style="border: 2px solid #f15773; border-radius: 5px; padding: 5px;">
-                                                      <input type="file" class="custom-file-input" id="customFile">
+                                                      <input type="file" class="custom-file-input" id="customFile" name="photo" accept="image/*" onchange="updateFileName()">
                                                       <label class="custom-file-label" for="customFile">Choose your file</label>
                                                    </div>
                                                 </div>
+
+                                                <script>
+                                                      function updateFileName() {
+                                                         var input = document.getElementById('customFile');
+                                                         var fileName = input.files[0].name;
+                                                         var label = document.querySelector('.custom-file-label');
+                                                         label.textContent = fileName;
+                                                      }
+                                                   </script>                          
+
                                               </div>
                                              </div>
                                              </div>
-
+                                             <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" name="expense-button" id="submit">Save</button>
+                                             </div>
                                             </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                             </div>
                                          </div>
                                       </div>
                                  </div>
-                                 <div class="modal-footer">
+                                 <!-- <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <button type="button" class="btn btn-primary">Save</button>
-                                 </div>
+                                 </div> -->
                               </div>
                            </div>
                         </div>
@@ -875,151 +754,121 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
                   </div>
 
                      <div class="iq-card-body">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height-half" style="background-color: transparent; box-shadow: none;">
-                        <div class="iq-card-body rounded" style="background-color:#fcefef">
-                        <p class="breadcrumb-item"><b>Tuesday, 9 January 2024</b></p>
-                        <ul class="task-lists m-0 p-0">
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-primary"><span>B</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Biaya Salon</h6>
-                                 <p class="mb-0 font-size-12">Gaya Hidup</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> - Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li> 
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-info"><span>P</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Bayar uang PDAM</h6>
-                                 <p class="mb-0 font-size-12">Listrik/PDAM</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> - Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-danger"><span>A</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Makan pagi</h6>
-                                 <p class="mb-0 font-size-12">Makanan</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> - Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-success"><span>P</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Belanja Perlengkapan Sekolah</h6>
-                                 <p class="mb-0 font-size-12">Pendidikan</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> - Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex align-items-center">
-                              <div class="profile-icon iq-bg-warning"><span>A</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Bayar Gojek</h6>
-                                 <p class="mb-0 font-size-12">Transportasi</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> - Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>                            
-                        </ul>
-                        </div>
-                        </div>
+                     <?php
 
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height-half" style="background-color: transparent; box-shadow: none;">
-                           <div class="iq-card-body rounded" style="background-color:#fcefef">
-                           <p class="breadcrumb-item"><b>Friday, 12 January 2024</b></p>
-                           <ul class="task-lists m-0 p-0">
-                              <li class="d-flex mb-4 align-items-center">
-                                 <div class="profile-icon iq-bg-primary"><span>B</span></div>
-                                 <div class="media-support-info ml-3">
-                                    <h6>Biaya Salon</h6>
-                                    <p class="mb-0 font-size-12">Gaya Hidup</p>
-                                 </div>
-                                 <div class="media-support-info ml-3">
-                                    <p class="text-primary mb-0"> - Rp 168.900 </p>
-                                 </div>
-                                 <div class="revenue-amount">
-                                    <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                                 </div>
-                              </li> 
-                              <li class="d-flex mb-4 align-items-center">
-                                 <div class="profile-icon iq-bg-info"><span>P</span></div>
-                                 <div class="media-support-info ml-3">
-                                    <h6>Bayar uang PDAM</h6>
-                                    <p class="mb-0 font-size-12">Listrik/PDAM</p>
-                                 </div>
-                                 <div class="media-support-info ml-3">
-                                    <p class="text-primary mb-0"> - Rp 168.900 </p>
-                                 </div>
-                                 <div class="revenue-amount">
-                                    <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                                 </div>
-                              </li>
-                              <li class="d-flex mb-4 align-items-center">
-                                 <div class="profile-icon iq-bg-danger"><span>A</span></div>
-                                 <div class="media-support-info ml-3">
-                                    <h6>Makan pagi</h6>
-                                    <p class="mb-0 font-size-12">Makanan</p>
-                                 </div>
-                                 <div class="media-support-info ml-3">
-                                    <p class="text-primary mb-0"> - Rp 168.900 </p>
-                                 </div>
-                                 <div class="revenue-amount">
-                                    <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                                 </div>
-                              </li>
-                              <li class="d-flex mb-4 align-items-center">
-                                 <div class="profile-icon iq-bg-success"><span>P</span></div>
-                                 <div class="media-support-info ml-3">
-                                    <h6>Belanja Perlengkapan Sekolah</h6>
-                                    <p class="mb-0 font-size-12">Pendidikan</p>
-                                 </div>
-                                 <div class="media-support-info ml-3">
-                                    <p class="text-primary mb-0"> - Rp 168.900 </p>
-                                 </div>
-                                 <div class="revenue-amount">
-                                    <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                                 </div>
-                              </li>
-                              <li class="d-flex align-items-center">
-                                 <div class="profile-icon iq-bg-warning"><span>A</span></div>
-                                 <div class="media-support-info ml-3">
-                                    <h6>Bayar Gojek</h6>
-                                    <p class="mb-0 font-size-12">Transportasi</p>
-                                 </div>
-                                 <div class="media-support-info ml-3">
-                                    <p class="text-primary mb-0"> - Rp 168.900 </p>
-                                 </div>
-                                 <div class="revenue-amount">
-                                    <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                                 </div>
-                              </li>                            
-                           </ul>
-                           </div>
-                           </div>
+$user_id = $_SESSION['id_user']; // Gantilah dengan user_id yang sesuai dari sesi PHP
+
+$expense_query = "SELECT * FROM history_expenses WHERE id_user = $user_id";
+$expense_result = mysqli_query($connect, $expense_query);
+
+if (!$expense_result) {
+   die("Error fetching income data: " . mysqli_error($connect));
+}
+
+$categoryIconMapping = array(
+   1 => 'las la-hamburger',
+   2 => 'las la-car-side',
+   3 => 'las la-user-friends',
+   4 => 'las la-home',
+   5 => 'las la-gift',
+   6 => 'las la-mobile',
+   7 => 'las la-tshirt',
+   8 => 'las la-umbrella-beach',
+   9 => 'las la-spa',
+   10 => 'las la-hospital',
+   11 => 'las la-baby',
+   12 => 'las la-paw',
+   13 => 'las la-plane-departure',
+   14 => 'las la-graduation-cap',
+   15 => 'las la-couch',
+   16 => 'las la-calendar-alt'
+);
+
+$getCategoryName = array(
+   1 => 'Diet',
+   2 => 'Transport',
+   3 => 'Social',
+   4 => 'Residential',
+   5 => 'Gift',
+   6 => 'Comunication',
+   7 => 'Clothing',
+   8 => 'Recreation',
+   9 => 'Beautify',
+   10 => 'Medical',
+   11 => 'Baby',
+   12 => 'Pet',
+   13 => 'Travel',
+   14 => 'Education',
+   15 => 'HomeApliances',
+   16 => 'Daily'
+);
+
+$previous_date = null;
+
+echo '<div class="container">'; // Container untuk memuat semua history
+while ($row = mysqli_fetch_assoc($expense_result)) {
+   $date_expense = $row['date_expense'];
+   $expense_name = $row['expense_name'];
+   $category_icon = $categoryIconMapping[$row['id_category_expense']];
+   $category_name = $getCategoryName[$row['id_category_expense']];
+   $total_expense = $row['total_expense'];
+   $image_expense = $row['image_expense'];
+
+   // Check if the date has changed
+   if ($date_expense !== $previous_date) {
+      // Close the previous card body if it exists
+      if ($previous_date !== null) {
+            echo '</ul>';
+            echo '</div>'; // Close the previous card body
+            echo '<br>';
+      }
+
+      // Open a new card for the current date
+      echo '<div class="iq-card iq-card-block iq-card-stretch iq-card-height-half mb-3" style="background-color: transparent; box-shadow: none;">';
+      echo '<div class="iq-card-body rounded" style="background-color:#fcefef">';
+      echo '<p class="breadcrumb-item"><b>' . date('l, j F Y', strtotime($date_expense)) . '</b></p>';
+      echo '<ul class="task-lists m-0 p-0">';
+   }
+
+   echo '<li class="d-flex mb-4 align-items-center">';
+   echo '<div class="icon wage-icon"><i class="' . $category_icon . '" style="font-size: 50px; font-weight: bold; color: #f15773;"></i></div>';
+   echo '<div class="media-support-info ml-3">';
+   echo '<h6>' . $expense_name . '</h6>';
+   echo '<p class="mb-0 font-size-12">' . $category_name . '</p>';
+   echo '</div>';
+   echo '<div class="media-support-info ml-3">';
+   echo '<p class="text-primary mb-0"> - Rp ' . number_format($total_expense) . '</p>';
+   echo '</div>';
+   echo '<div class="revenue-amount">';
+   echo '<button type="button" class="btn mb-3 btn-primary rounded-pill" onclick="showImage(\'' . $image_expense . '\')"><i class="ri-bill-fill"></i>View Image</button>';
+   echo '</div>';
+   echo '</li>';
+
+   // Save the current date for the next iteration
+   $previous_date = $date_expense;
+}
+
+// Close the last card body if it exists
+if ($previous_date !== null) {
+   echo '</ul>';
+   echo '</div>'; // Close the last card body
+}
+
+echo '</div>'; // Close the container
+
+mysqli_close($connect);
+
+// JavaScript function to show the image when the button is clicked
+echo '<script>';
+echo 'function showImage(imageName) {';
+echo '   var imageWindow = window.open("", "Image Viewer", "width=600, height=400");';
+echo '   var struct = "struct";';
+echo '   var imagePath = "http://localhost/MoneyFest!/MoneyFest!/MoneyFest!/images/structs-expense/" + struct + imageName;';
+echo '   imageWindow.document.write("<img src=\'" + imagePath + "\' style=\'max-width:100%; max-height:100%; margin:auto;\' />");';
+echo '}';
+echo '</script>';
+
+?>
                         
 
                      </div>

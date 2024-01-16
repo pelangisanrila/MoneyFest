@@ -433,7 +433,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["income-button"])) {
                                  </a>
                                  <div>
                                     <h6>Total Income:</h6>
-                                    <h3><?= $total_income ?></h3>
+                                    <h3>Rp <?= number_format($total_income) ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -448,7 +448,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["income-button"])) {
                                  </a>
                                  <div>
                                     <h6>Balance :</h6>
-                                    <h3><?= $balance ?></h3>
+                                    <h3>Rp <?= number_format($balance) ?></h3>
                                  </div>
                               </div>
                            </div>
