@@ -13,44 +13,45 @@ if (!$query) {
 while ($row = mysqli_fetch_array($query)) {
     $name = $row['user_name'];
     $_SESSION['id_user'] = $row['id_user'];
+   //  $balance = $row['balance'];
 }
 
 $newFileName = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["photo"]["name"])) {
-   $uploadDir = 'C:' . DIRECTORY_SEPARATOR . 'xampp' . DIRECTORY_SEPARATOR . 'htdocs' . DIRECTORY_SEPARATOR . 'MoneyFest' . DIRECTORY_SEPARATOR . 'MoneyFest' . DIRECTORY_SEPARATOR . 'MoneyFest' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'structs';
-   // Directory where uploaded images will be saved
-    $randomStr = uniqid(); // Generate a random string
-    $date = date('Y-m-d'); // Get current date
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Other form input processing...
 
-    // Get the file information
-    $fileName = basename($_FILES["photo"]["name"]);
-    $fileTmp = $_FILES["photo"]["tmp_name"];
+    // Check if a file is uploaded
+    if (isset($_FILES["photo"]["name"]) || $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
+        $uploadDir = 'C:\xampp\htdocs\MoneyFest!\MoneyFest!\MoneyFest!\images\structs\struct';
+        
+        // Get the file information
+        $fileName = basename($_FILES["photo"]["name"]);
+        $fileTmp = $_FILES["photo"]["tmp_name"];
 
-    // Extract file extension
-    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        // Extract file extension
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-    // Create a unique filename using current date, random string, and file extension
-    $newFileName = $date . '-' . $randomStr . '.' . $fileExtension;
+        // Generate a random string and current date for a unique filename
+        $randomStr = uniqid();
+        $date = date('Y-m-d');
+        $newFileName = $date . '-' . $randomStr . '.' . $fileExtension;
 
-    // Move the uploaded file to the specified directory with the new filename
-    $destination = $uploadDir . $newFileName;
-    if (move_uploaded_file($fileTmp, $destination)) {
-        echo "";
-    } else {
-        echo "Error uploading file.";
+        // Move the uploaded file to the specified directory with the new filename
+        $destination = $uploadDir . $newFileName;
+        if (move_uploaded_file($fileTmp, $destination)) {
+            echo "";
+        } else {
+            echo "Error uploading file.";
+        }
     }
-
-    if ($_FILES['photo']['error'] != 0) {
-      die("File upload error: " . $_FILES['photo']['error']);
-  }
-  
 }
+
 
 // $row = mysqli_fetch_array($query);
 // $_SESSION['id_user'] = $row['id_user'];
 
-if (isset($_POST['income-button'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["income-button"])) {
     $id_user = 1;
     $income_name = $_POST['income_name'];
     $id_category_income = $_POST['kategori'];
@@ -71,6 +72,18 @@ if (isset($_POST['income-button'])) {
   }
 
 }
+
+  $user = $_SESSION['id_user'];
+  $total_income_sql = "SELECT total_income($user) AS total_income";
+  $total_income_query = mysqli_query($connect, $total_income_sql);
+  $total_income = mysqli_fetch_assoc($total_income_query);
+  $total_income = $total_income['total_income'];
+
+  $user = $_SESSION['id_user'];
+  $balance_sql = "SELECT balance($user) AS balance";
+  $balance_query = mysqli_query($connect, $balance_sql);
+  $balance = mysqli_fetch_assoc($balance_query);
+  $balance = $balance['balance'];
 ?>
 
 <!doctype html>
@@ -203,7 +216,7 @@ if (isset($_POST['income-button'])) {
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                      <br>
                      <!-- <li class="iq-menu-title"><i class="ri-separator"></i><span>Main</span></li> -->
-                     <li><a href="index.php" class="iq-waves-effect"><i class="las la-home"></i><span>Home</span></a></li>
+                     <li><a href="home.php" class="iq-waves-effect"><i class="las la-home"></i><span>Home</span></a></li>
                      <li class="active">
                         <a href="#FinancialReporting" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="true"><i class="las la-check-square"></i><span>Financial Reporting</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>                   
                         <ul id="FinancialReporting" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
@@ -217,7 +230,7 @@ if (isset($_POST['income-button'])) {
                      <li><a href="Reports.php" class="iq-waves-effect"><i class="las la-file-contract"></i><span>Financial Reports</span></a></li>
                      <li><a href="Analysis.php" class="iq-waves-effect"><i class="las la-chart-bar"></i><span>Financial Analysis</span></a></li>
                      <li><a href="forum.php" class="iq-waves-effect"><i class="las la-user-tie"></i><span>Discussion Forum</span></a></li>
-                     <li><a href="chat.php" class="iq-waves-effect"><i class="las la-sms"></i><span>Expert Consultation</span></a></li>
+                     <li><a href="chat.html" class="iq-waves-effect"><i class="las la-sms"></i><span>Expert Consultation</span></a></li>
                      <br><br>
                      <li><a href="#" class="iq-waves-effect"><i class="las la-sign-out-alt"></i><span>Logout</span></a></li>
                   </ul>
@@ -420,7 +433,7 @@ if (isset($_POST['income-button'])) {
                                  </a>
                                  <div>
                                     <h6>Total Income:</h6>
-                                    <h3>2.500.000</h3>
+                                    <h3><?= $total_income ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -435,7 +448,7 @@ if (isset($_POST['income-button'])) {
                                  </a>
                                  <div>
                                     <h6>Balance :</h6>
-                                    <h3>1.500.000</h3>
+                                    <h3><?= $balance ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -578,7 +591,7 @@ if (isset($_POST['income-button'])) {
                                     <div class="modal-body">
                                         <div class="iq-card">
                                             <div class="iq-card-body">
-                                               <form method="$_POST" enctype="multipart/form-data">
+                                               <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                                 <div class="col-lg-12">
                                                 <div class="row">
                                                 <div class="col-sm-6">
@@ -671,7 +684,7 @@ if (isset($_POST['income-button'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> -->
-                                                   <button type="button" class="btn btn-primary" type="submit" name="income-button" id="submit">Save</button>
+                                                   <button class="btn btn-primary" type="submit" name="income-button" id="submit">Save</button>
                                                 </div>
                                                 
                                                </form>
@@ -693,80 +706,100 @@ if (isset($_POST['income-button'])) {
                      
                      </div>
                      <div class="iq-card-body">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height-half" style="background-color: transparent; box-shadow: none;">
-                        <div class="iq-card-body rounded" style="background-color:#fcefef">
-                        <p class="breadcrumb-item"><b>Tuesday, 9 January 2024</b></p>
-                        <ul class="task-lists m-0 p-0">
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-primary"><span>B</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Biaya Salon</h6>
-                                 <p class="mb-0 font-size-12">Gaya Hidup</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> + Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li> 
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-info"><span>P</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Bayar uang PDAM</h6>
-                                 <p class="mb-0 font-size-12">Listrik/PDAM</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> + Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-danger"><span>A</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Makan pagi</h6>
-                                 <p class="mb-0 font-size-12">Makanan</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> + Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex mb-4 align-items-center">
-                              <div class="profile-icon iq-bg-success"><span>P</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Belanja Perlengkapan Sekolah</h6>
-                                 <p class="mb-0 font-size-12">Pendidikan</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> + Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>
-                           <li class="d-flex align-items-center">
-                              <div class="profile-icon iq-bg-warning"><span>A</span></div>
-                              <div class="media-support-info ml-3">
-                                 <h6>Bayar Gojek</h6>
-                                 <p class="mb-0 font-size-12">Transportasi</p>
-                              </div>
-                              <div class="media-support-info ml-3">
-                                 <p class="text-primary mb-0"> + Rp 168.900 </p>
-                              </div>
-                              <div class="revenue-amount">
-                                 <button type="button" class="btn mb-3 btn-primary rounded-pill"><i class="ri-bill-fill"></i>View Image</button>
-                              </div>
-                           </li>                            
-                        </ul>
-                        </div>
-                        </div>
+                     <?php
 
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height-half" style="background-color: transparent; box-shadow: none;">
+                        $user_id = $_SESSION['id_user']; // Gantilah dengan user_id yang sesuai dari sesi PHP
+
+                        $income_query = "SELECT * FROM history_income WHERE id_user = $user_id";
+                        $income_result = mysqli_query($connect, $income_query);
+
+                        if (!$income_result) {
+                           die("Error fetching income data: " . mysqli_error($connect));
+                        }
+
+                        $categoryIconMapping = array(
+                           1 => 'las la-hand-holding-usd',
+                           2 => 'las la-coins',
+                           3 => 'las la-money-bill-wave-alt',
+                           4 => 'las la-business-time'
+                        );
+
+                        $getCategoryName = array(
+                        1 => 'Wage',
+                        2 => 'Bonus',
+                        3 => 'Investment',
+                        4 => 'Part Time'
+                        );
+
+                        $previous_date = null;
+
+                        echo '<div class="container">'; // Container untuk memuat semua history
+                        while ($row = mysqli_fetch_assoc($income_result)) {
+                           $date_income = $row['date_income'];
+                           $income_name = $row['income_name'];
+                           $category_icon = $categoryIconMapping[$row['id_category_income']];
+                           $category_name = $getCategoryName[$row['id_category_income']];
+                           $total_income = $row['total_income'];
+                           $image_income = $row['image_income'];
+
+                           // Check if the date has changed
+                           if ($date_income !== $previous_date) {
+                              // Close the previous card body if it exists
+                              if ($previous_date !== null) {
+                                    echo '</ul>';
+                                    echo '</div>'; // Close the previous card body
+                                    echo '<br>';
+                              }
+
+                              // Open a new card for the current date
+                              echo '<div class="iq-card iq-card-block iq-card-stretch iq-card-height-half mb-3" style="background-color: transparent; box-shadow: none;">';
+                              echo '<div class="iq-card-body rounded" style="background-color:#fcefef">';
+                              echo '<p class="breadcrumb-item"><b>' . date('l, j F Y', strtotime($date_income)) . '</b></p>';
+                              echo '<ul class="task-lists m-0 p-0">';
+                           }
+
+                           echo '<li class="d-flex mb-4 align-items-center">';
+                           echo '<div class="icon wage-icon"><i class="' . $category_icon . '" style="font-size: 50px; font-weight: bold; color: #f15773;"></i></div>';
+                           echo '<div class="media-support-info ml-3">';
+                           echo '<h6>' . $income_name . '</h6>';
+                           echo '<p class="mb-0 font-size-12">' . $category_name . '</p>';
+                           echo '</div>';
+                           echo '<div class="media-support-info ml-3">';
+                           echo '<p class="text-primary mb-0"> + Rp ' . number_format($total_income) . '</p>';
+                           echo '</div>';
+                           echo '<div class="revenue-amount">';
+                           echo '<button type="button" class="btn mb-3 btn-primary rounded-pill" onclick="showImage(\'' . $image_income . '\')"><i class="ri-bill-fill"></i>View Image</button>';
+                           echo '</div>';
+                           echo '</li>';
+
+                           // Save the current date for the next iteration
+                           $previous_date = $date_income;
+                        }
+
+                        // Close the last card body if it exists
+                        if ($previous_date !== null) {
+                           echo '</ul>';
+                           echo '</div>'; // Close the last card body
+                        }
+
+                        echo '</div>'; // Close the container
+
+                        mysqli_close($connect);
+
+                        // JavaScript function to show the image when the button is clicked
+                        echo '<script>';
+                        echo 'function showImage(imageName) {';
+                        echo '   var imageWindow = window.open("", "Image Viewer", "width=600, height=400");';
+                        echo '   var struct = "struct";';
+                        echo '   var imagePath = "http://localhost/MoneyFest!/MoneyFest!/MoneyFest!/images/structs/" + struct + imageName;';
+                        echo '   imageWindow.document.write("<img src=\'" + imagePath + "\' style=\'max-width:100%; max-height:100%; margin:auto;\' />");';
+                        echo '}';
+                        echo '</script>';
+
+                        ?>
+
+
+                        <!-- <div class="iq-card iq-card-block iq-card-stretch iq-card-height-half" style="background-color: transparent; box-shadow: none;">
                            <div class="iq-card-body rounded" style="background-color:#fcefef">
                            <p class="breadcrumb-item"><b>Friday, 12 January 2024</b></p>
                            <ul class="task-lists m-0 p-0">
@@ -837,7 +870,7 @@ if (isset($_POST['income-button'])) {
                               </li>                            
                            </ul>
                            </div>
-                           </div>
+                           </div> -->
                      </div>
                      
                   </div>
@@ -860,8 +893,8 @@ if (isset($_POST['income-button'])) {
                </div>
                <div class="col-lg-6 text-right">
                   Copyright <span id="copyright"> 
-<script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>
-</span> <a href="#">MoneyFest!</a> All Rights Reserved.
+                  <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>
+                  </span> <a href="#">MoneyFest!</a> All Rights Reserved.
                </div>
             </div>
          </div>

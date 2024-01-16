@@ -195,6 +195,8 @@ a:hover { text-decoration: none; color: #4F6272; }
 .sign-in-page { position: relative; }
 .sign-in-page::after { position: absolute; content: ""; top: 0; bottom: 0; left: auto; right: 0; min-height: 0; max-height: 210px; border-radius: 0 0 30px 30px; width: 100%; background: rgba(241, 87, 115, 1); background: -moz-linear-gradient(left, rgba(241, 87, 115, 1) 0%, rgba(248, 134, 159, 1) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, rgba(241, 87, 115, 1)), color-stop(100%, rgba(248, 134, 159, 1))); background: -webkit-linear-gradient(left, rgba(241, 87, 115, 1) 0%, rgba(248, 134, 159, 1) 100%); background: -o-linear-gradient(left, rgba(241, 87, 115, 1) 0%, rgba(248, 134, 159, 1) 100%); background: -ms-linear-gradient(left, rgba(241, 87, 115, 1) 0%, rgba(248, 134, 159, 1) 100%); background: linear-gradient(to right, rgba(241, 87, 115, 1) 0%, rgba(248, 134, 159, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f15773', endColorstr='#f8869f', GradientType=1); }
 
+
+  
 /*---------------------------------------------------------------------
                                Dash Hover
 -----------------------------------------------------------------------*/

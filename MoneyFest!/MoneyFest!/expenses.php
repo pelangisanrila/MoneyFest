@@ -1,3 +1,91 @@
+<?php
+require "includes/db_connect.php";
+
+$_SESSION['id_user'] = 1;
+
+$profile_sql = "SELECT * FROM user WHERE user_name = 'Khairunnisa'";
+$query = mysqli_query($connect, $profile_sql);
+
+if (!$query) {
+    die("Query gagal" . mysqli_error($connect));
+}
+
+while ($row = mysqli_fetch_array($query)) {
+    $name = $row['user_name'];
+    $_SESSION['id_user'] = $row['id_user'];
+   //  $balance = $row['balance'];
+}
+
+$newFileName = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Other form input processing...
+
+    // Check if a file is uploaded
+    if (isset($_FILES["photo"]["name"]) || $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
+        $uploadDir = 'C:\xampp\htdocs\MoneyFest!\MoneyFest!\MoneyFest!\images\structs\struct';
+        
+        // Get the file information
+        $fileName = basename($_FILES["photo"]["name"]);
+        $fileTmp = $_FILES["photo"]["tmp_name"];
+
+        // Extract file extension
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // Generate a random string and current date for a unique filename
+        $randomStr = uniqid();
+        $date = date('Y-m-d');
+        $newFileName = $date . '-' . $randomStr . '.' . $fileExtension;
+
+        // Move the uploaded file to the specified directory with the new filename
+        $destination = $uploadDir . $newFileName;
+        if (move_uploaded_file($fileTmp, $destination)) {
+            echo "";
+        } else {
+            echo "Error uploading file.";
+        }
+    }
+}
+
+
+// $row = mysqli_fetch_array($query);
+// $_SESSION['id_user'] = $row['id_user'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["expense-button"])) {
+    $id_user = 1;
+    $expense_name = $_POST['expense_name'];
+    $id_category_expense = $_POST['kategori'];
+    $total_expense = $_POST['nominal'];
+    $date_expense = $_POST['exampleInputdate'];
+    $image_expense = $newFileName;
+
+    $expense_query = "CALL input_expenses('$id_user', '$expense_name', '$id_category_expense', '$total_expense', '$date_expense', '$image_expense')";
+    $product_sql = mysqli_query($connect, $expense_query);
+
+    if ($product_sql) {
+      // Query executed successfully
+      echo "Expense added successfully!";
+      header("Location:expenses.php");
+  } else {
+      // Query execution failed
+      echo "Error: " . mysqli_error($connect);
+  }
+
+}
+
+  $user = $_SESSION['id_user'];
+  $total_expenses_sql = "SELECT total_expenses($user) AS total_expenses";
+  $total_expenses_query = mysqli_query($connect, $total_expenses_sql);
+  $total_expenses = mysqli_fetch_assoc($total_expenses_query);
+  $total_expenses = $total_expenses['total_expenses'];
+
+  $user = $_SESSION['id_user'];
+  $balance_sql = "SELECT balance($user) AS balance";
+  $balance_query = mysqli_query($connect, $balance_sql);
+  $balance = mysqli_fetch_assoc($balance_query);
+  $balance = $balance['balance'];
+?>
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -126,7 +214,7 @@
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                      <br>
                      <!-- <li class="iq-menu-title"><i class="ri-separator"></i><span>Main</span></li> -->
-                     <li><a href="index.php" class="iq-waves-effect"><i class="las la-home"></i><span>Home</span></a></li>
+                     <li><a href="home.php" class="iq-waves-effect"><i class="las la-home"></i><span>Home</span></a></li>
                      <li class="active">
                         <a href="#FinancialReporting" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="true"><i class="las la-check-square"></i><span>Financial Reporting</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>                   
                         <ul id="FinancialReporting" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
@@ -343,7 +431,7 @@
                                  </a>
                                  <div>
                                     <h6>Total Expenses:</h6>
-                                    <h3>2.500.000</h3>
+                                    <h3><?= $total_expenses ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -358,7 +446,7 @@
                                  </a>
                                  <div>
                                     <h6>Balance :</h6>
-                                    <h3>1.500.000</h3>
+                                    <h3><?= $balance ?></h3>
                                  </div>
                               </div>
                            </div>
@@ -517,17 +605,17 @@
                                  <div class="modal-body">
                                      <div class="iq-card">
                                          <div class="iq-card-body">
-                                            <form>
+                                            <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                              <div class="col-lg-12">
                                              <div class="row">
                                              <div class="col-sm-6">
                                                <div class="form-group">
-                                                  <label for="exampleInputText1">Income Name </label>
-                                                  <input type="text" class="form-control" id="exampleInputText1" value="" placeholder="Enter detail of the income">
+                                                  <label for="exampleInputText1">Expense Name </label>
+                                                  <input type="text" class="form-control" name="expense_name" id="exampleInputText1" value="" placeholder="Enter detail of the expense">
                                                </div>
                                                <div class="form-group">
                                                   <label for="exampleInputNumber1">Nominal</label>
-                                                  <input type="number" class="form-control" id="exampleInputNumber1" value="" placeholder="Enter your total income">
+                                                  <input type="number" class="form-control" name="nominal" id="exampleInputNumber1" value="" placeholder="Enter your total expense">
                                                </div>
                                                <div class="form-group">
                                                    <label for="exampleInputdate">Date Input</label>
