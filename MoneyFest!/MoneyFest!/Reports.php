@@ -42,7 +42,6 @@
             <div id="sidebar-scrollbar">
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
-                     <li class="iq-menu-title"><i class="ri-separator"></i><span>Main</span></li>
                      <li><a href="home.php" class="iq-waves-effect"><i class="las la-home"></i><span>Home</span></a></li>
                      <li>
                         <a href="#FinancialReporting" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="las la-check-square"></i><span>Financial Reporting</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>                   
