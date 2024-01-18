@@ -22,13 +22,22 @@ We have chosen to implement our solution through a comprehensive website named "
 5.	Open Discussion Forum : This platform also provides an open discussion forum for all users who want to discuss anything about finance, in which there are also verified users (financial experts) who can help provide information in the forum.
 6.	One-to-One Consultation Services with the Expert : Users can also have one-to-one consultations with the expert using the chat feature on our platform.
 
+![landing1](https://github.com/pelangisanrila/MoneyFest/assets/116135090/54f8e38d-311c-49a3-89d0-36c436691e92)
+![landing2](https://github.com/pelangisanrila/MoneyFest/assets/116135090/778008f5-e0c3-4c59-a0e7-8d11bc75662d)
+![sign-in](https://github.com/pelangisanrila/MoneyFest/assets/116135090/137b6d70-2711-45fe-a968-15d5fd62adee)
+![sign-up](https://github.com/pelangisanrila/MoneyFest/assets/116135090/204ab630-ef61-4108-9d3f-f4da8b0425e7)
+![home](https://github.com/pelangisanrila/MoneyFest/assets/116135090/7dbc5f62-865f-4298-b887-c035b6c058ff)
+![reporting-income-feature](https://github.com/pelangisanrila/MoneyFest/assets/116135090/e348cd97-9f4a-4edf-96e7-910c2463b579)
+![income-form](https://github.com/pelangisanrila/MoneyFest/assets/116135090/a285e6e5-e78c-4df5-b7f9-e9139a732aae)
+![reporting-expenses-feature](https://github.com/pelangisanrila/MoneyFest/assets/116135090/59e4633e-fd45-4d79-bedb-6292ab26272d)
+![expenses-form](https://github.com/pelangisanrila/MoneyFest/assets/116135090/495892c0-634b-4020-bcde-4a79cdfc89ee)
+![financial-reports](https://github.com/pelangisanrila/MoneyFest/assets/116135090/6b03a7b2-f9c3-41c3-8b08-eea48c5206b0)
+![expert-consultation](https://github.com/pelangisanrila/MoneyFest/assets/116135090/6cbaa0e7-919e-4a79-b44d-1cfe18e13871)
+![expert-consultation-chat](https://github.com/pelangisanrila/MoneyFest/assets/116135090/f8f097e4-f7b0-46fc-8d2b-d9819aba1005)
+
+
 # How To Run MoneyFest! Website
 1.	Start Mysql and Apache servers.
 2.	Copy the MoneyFest folder to htdocs (C:/Program Files/XAMPP/htdocs)
 3.	Now to run the code, open “http://localhost/MoneyFest!/MoneyFest!/MoneyFest!/ “ then it gets executed.
 
-
-
-![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1257).png?raw = true)
-![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1259).png?raw = true)
-![alt text](https://github.com/pelangisanrila/MoneyFest/blob/master/MoneyFest!/MoneyFest!/images/Screenshot%20(1260).png?raw = true)
