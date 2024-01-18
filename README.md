@@ -3,8 +3,11 @@
 MoneyFest! is the need for an innovative solution that integrates financial education and financial management tools into a unified website-based platform.  "With MoneyFest in your quest, financial success is the ultimate guest!". The goal is to empower users to make informed financial decisions, promote sustainable financial practices, and contribute to the achievement of Sustainable Development Goals (SDG) in terms of Quality Education, Decent Work and Economic Growth, and Responsible Consumption and Production. 
 
 -MoneyFest! provides an easy and simple platform for users to record and manage their finances. Users can now easily track their financial transactions, reducing the likelihood of forgetting or losing important financial records.
+
 -MoneyFest! offers a tracking tool that allows users to monitor and analyze their spending patterns. Users can identify irregular spending habits, enabling them to make informed decisions and establish more organized financial routines.
+
 -MoneyFest! provides a user-friendly interface and simple recording system. The user-friendly design encourages individuals who may be hesitant due to complexity to actively engage in financial tracking and management.
+
 -MoneyFest! includes an open discussion forum for users to share financial tips and thoughts. A community is formed, fostering knowledge exchange and providing users with a support system for financials discussions and problem solving.
 
 # Sustainable And Development Goals
